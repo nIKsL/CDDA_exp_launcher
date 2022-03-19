@@ -58,7 +58,9 @@ def save_release(url, release_file_name):
     """
     if os.path.exists(f"{RELEASE_FOLDER}{release_file_name}"):
         print("We already have this file") 
-        print(f"{RELEASE_FOLDER}{release_file_name} \n")
+        print(f"{RELEASE_FOLDER}{release_file_name}")
+        release_file_size = round((os.stat(f'{RELEASE_FOLDER}{release_file_name}').st_size)/(1024*1024),1)
+        print(f"File size: {release_file_size}Mb \n")
         input("Press Enter")
         return 1
     else:
@@ -74,7 +76,9 @@ def save_release(url, release_file_name):
             return 0
         finally:
             print("Done!")
-            print(f"{RELEASE_FOLDER}{release_file_name} \n")
+            print(f"{RELEASE_FOLDER}{release_file_name}")
+            release_file_size = round((os.stat(f'{RELEASE_FOLDER}{release_file_name}').st_size)/(1024*1024),1)
+            print(f"File size: {release_file_size}Mb \n")
             input("Press Enter")
             return 1
 
@@ -153,21 +157,29 @@ def main():
         else:
             i += 1
 #             print(item.split()[-1])
-    if i == 10:
+    if i >= 10:
         X = 'More then 10'
     else:
-        X = i
+        X = str(i)
     try:
         last_release = list(releases.keys())[0].split()[-1]
     except IndexError:
         last_release = CURRENT_VERSION
-#     X = len(GAME_FOLDER.split('/')[-2])
-#     print(X)
-#     print(GAME_FOLDER[:-X-1])
-#     print(GAME_FOLDER+"..")
 
-#     install_folder = GAME_FOLDER[:-X-1]
-#     sys.exit()
+    # release_file_name = f"{DISTRO_TYPE}{last_release}.tar.gz"
+    # release_https_file = f"{MAIN_URL}/download/cdda-experimental-{last_release}/{DISTRO_TYPE}{last_release}.tar.gz"
+    # # release_https_file = 'https://github.com/CleverRaven/Cataclysm-DDA/releases/download/cdda-experimental-2022-03-19-0426/cdda-linux-tiles-x64-2022-03-19-0426.tar.gz'
+    # release_file_size = round((os.stat(f'{RELEASE_FOLDER}{release_file_name}').st_size)/(1024*1024),1)
+    # 
+    # res = requests.head(release_https_file)
+    # http_file_size = int(res.headers['content-length'])
+    # if release_file_size > 0000000:
+    #     print(f'Размер файла: {release_file_size}')
+    #     # print(f'Адрес файла: {release_https_file}')
+    #     print(f'Размер файла на сервере: {http_file_size}')
+    # else:
+    #     print('С размером файла что-то не так.. попробуйте позже')
+    # sys.exit()
 
     release_https_file = f"{MAIN_URL}/download/cdda-experimental-{last_release}/{DISTRO_TYPE}{last_release}.tar.gz"
     release_file_name = f"{DISTRO_TYPE}{last_release}.tar.gz"
@@ -180,7 +192,8 @@ def main():
     start_item = CommandItem("Start GAME", f"cd {GAME_FOLDER} && ./cataclysm-tiles", should_exit=True)
     string = "Press_Enter__and_you_need_to_restart_launcher now"
 #     string working wrong (read -p string) dunno why... just left it mb later I fix it
-    tar_command = f"tar -C {GAME_FOLDER}.. -xvzf {RELEASE_FOLDER}{release_file_name} && read -p {string}"
+    # check tar archive -> if ok unppack it in game folder
+    tar_command = f"tar -tzf {RELEASE_FOLDER}{release_file_name} 1>/dev/null && tar -C {GAME_FOLDER}.. -xvzf {RELEASE_FOLDER}{release_file_name} && read -p {string}"
     install_item = CommandItem("Install new build", f"{tar_command}", should_exit=True)
     save_item = FunctionItem("Save game data and preferences", input, ["working on it"])
     load_item = FunctionItem("Load game data and preferences", input, ["working on it"])
