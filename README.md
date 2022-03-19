@@ -12,14 +12,13 @@ I like CDDA, but it's annoying all the time to open the page with experimental r
 - starts the game (tiles version)
 - unpacks (tar -xvzf) the downloaded release into the game folder
 
-![Alt-текст](https://github.com/nIKsL/CDDA_exp_launcher/blob/master/img/scr_menu.png "Орк")
+![Alt-текст](https://github.com/nIKsL/CDDA_exp_launcher/blob/master/img/scr_menu.png "Menu screenshot")
 
 
 **TODO:**
 - save game data
 - load game data
 - Launcher preferences - (may be genereate options.py on first start.. dunno.. mb delete it.. u can do all settings in options.py)
-- check file size - while dl file from assets - need to check it`s size
 
 ____
 You can use it as simple python scipt (main.py)
