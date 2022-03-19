@@ -203,9 +203,9 @@ def main():
     menu.append_item(list_item)
     menu.append_item(start_item)
     menu.append_item(install_item)
-    menu.append_item(save_item)
-    menu.append_item(load_item)
-    menu.append_item(pref_item)
+    # menu.append_item(save_item)
+    # menu.append_item(load_item)
+    # menu.append_item(pref_item)
     # Finally, we call show to show the menu and allow the user to interact
     menu.show()
 
